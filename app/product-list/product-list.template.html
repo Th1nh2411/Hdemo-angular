@@ -6,12 +6,21 @@
       <p>
         <input placeholder="Search something" ng-model="$ctrl.query" />
       </p>
-
       <p>
         Sort by:
         <select ng-model="$ctrl.orderProp">
-          <option value="title">Alphabetical</option>
-          <option value="price">Price</option>
+          <option value="title">Alphabetical ascending</option>
+          <option value="-title">Alphabetical descending</option>
+          <option value="((price * discountPercentage) / 100)">Price increase</option>
+          <option value="-((price * discountPercentage) / 100)">Price decrease</option>
+        </select>
+      </p>
+
+      <p>
+        Category:
+        <select ng-model="$ctrl.category" ng-change="$ctrl.onChangeCategory()">
+          <option value="">Choose Category...</option>
+          <option ng-repeat="item in $ctrl.categories" value="{{item}}">{{item}}</option>
         </select>
       </p>
 

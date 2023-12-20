@@ -20,7 +20,7 @@ describe("productDetail", function () {
       $httpBackend = _$httpBackend_;
       $httpBackend.expectGET("products/xyz.json").respond(xyzproductData);
 
-      $routeParams.productId = "xyz";
+      $routeParams.idProduct = "xyz";
 
       ctrl = $componentController("productDetail");
     }));

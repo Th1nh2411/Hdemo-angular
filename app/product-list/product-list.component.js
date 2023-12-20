@@ -8,10 +8,36 @@ angular.module("productList").component("productList", {
     function productListController(Product) {
       var self = this;
       self.loading = true;
-      self.products = Product.query(function () {
-        self.loading = false;
-      });
-      self.orderProp = "price";
+
+      self.categories = Product.getCategories();
+      self.orderProp = "title";
+      self.category = "";
+
+      // Get data
+      self.onChangeCategory = function () {
+        if (self.category != "") {
+          self.getProductsByCategory();
+        } else {
+          self.getAllProducts();
+        }
+      };
+
+      self.getAllProducts = function () {
+        self.loading = true;
+        self.products = Product.getProducts(function () {
+          self.loading = false;
+        });
+      };
+      self.getProductsByCategory = function () {
+        self.loading = true;
+        self.products = Product.getProducts(
+          { category: self.category, param: "category" },
+          function () {
+            self.loading = false;
+          }
+        );
+      };
+      self.getAllProducts();
     },
   ],
 });

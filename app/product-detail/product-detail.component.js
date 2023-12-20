@@ -12,7 +12,7 @@ angular.module("productDetail").component("productDetail", {
       self.stars = Array.from({ length: 5 }, (_, index) => index + 1);
 
       self.product = Product.get(
-        { productId: $routeParams.productId },
+        { idProduct: $routeParams.idProduct },
         function (product) {
           self.setImage(product.images[0]);
         }

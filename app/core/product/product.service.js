@@ -1,13 +1,18 @@
 "use strict";
-const url = "https://dummyjson.com/products";
+
 angular.module("core.product").factory("Product", [
   "$resource",
   function ($resource) {
+    const apiUrl = "https://dummyjson.com/products";
+
     return $resource(
-      `${url}/:productId`,
-      {},
+      `${apiUrl}/:param/:idProduct/:category`,
       {
-        query: {
+        // idProduct: "@idProduct",
+        // category: "@category",
+      },
+      {
+        getProducts: {
           method: "GET",
           isArray: true,
           transformResponse: function (data, headersGetter, status) {
@@ -17,6 +22,11 @@ angular.module("core.product").factory("Product", [
 
             return products;
           },
+        },
+        getCategories: {
+          method: "GET",
+          isArray: true,
+          params: { param: "categories" },
         },
       }
     );

@@ -119,10 +119,10 @@ git diff step-?..step-?
   - Use the `ngView` directive in 'index.html'.
 - Create a product list route (`/products`):
   - Map `/products` to the existing `productList` component.
-- Create a product detail route (`/products/:productId`):
-  - Map `/products/:productId` to a new `productDetail` component.
+- Create a product detail route (`/products/:idProduct`):
+  - Map `/products/:idProduct` to a new `productDetail` component.
   - Create a dummy `productDetail` component, which displays the selected product ID.
-  - Pass the `productId` parameter to the component's controller via `$routeParams`.
+  - Pass the `idProduct` parameter to the component's controller via `$routeParams`.
 
 ### step-10 _More Templating_
 

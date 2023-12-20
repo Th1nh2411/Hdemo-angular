@@ -7,7 +7,7 @@ angular.module("productcatApp").config([
       .when("/products", {
         template: "<product-list></product-list>",
       })
-      .when("/products/:productId", {
+      .when("/products/:idProduct", {
         template: "<product-detail></product-detail>",
       })
       .otherwise("/products");
