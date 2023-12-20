@@ -1,0 +1,42 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-2">
+      <!--Sidebar content-->
+
+      <p>
+        <input placeholder="Search something" ng-model="$ctrl.query" />
+      </p>
+
+      <p>
+        Sort by:
+        <select ng-model="$ctrl.orderProp">
+          <option value="title">Alphabetical</option>
+          <option value="price">Price</option>
+        </select>
+      </p>
+
+    </div>
+
+    <div class="col-md-10">
+      <!--Body content-->
+      <div ng-if="$ctrl.loading" class="ps-5">Loading...</div>
+      <ul ng-if="!$ctrl.loading" class="products">
+        <li ng-repeat="product in $ctrl.products | filter:$ctrl.query | orderBy:$ctrl.orderProp"
+          class="thumbnail product-list-item">
+          <a href="#!/products/{{product.id}}" class="thumb">
+            <img ng-src="{{product.thumbnail}}" alt="{{product.title}}" />
+          </a>
+          <div>
+            <a class="fs-5 text-primary text-decoration-none " href="#!/products/{{product.id}}">{{product.title}}</a>
+            <p class="product-description">{{product.description}}</p>
+            <div>
+              <span class=" text-decoration-line-through ">{{product.price | currency}}</span>
+              <span class="text-primary fs-5 ">{{(product.price * product.discountPercentage)/100 | currency}}</span>
+            </div>
+          </div>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</div>

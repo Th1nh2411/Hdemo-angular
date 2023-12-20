@@ -1,0 +1,46 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb mb-4 ">
+    <li class="breadcrumb-item"><a href="#!/products">Products</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Library</li>
+  </ol>
+</nav>
+<div class="d-flex border-bottom mb-4 ">
+  <div class="product-images">
+    <img ng-src="{{img}}" class="product" ng-class="{selected: img === $ctrl.mainImageUrl}"
+      ng-repeat="img in $ctrl.product.images" />
+  </div>
+
+  <div>
+    <div class="d-flex border-bottom mb-4 align-items-baseline ">
+      <h1 class="me-2">{{$ctrl.product.title}} </h1>
+      <h4>({{$ctrl.product.brand}})</h4>
+    </div>
+
+    <p>{{$ctrl.product.description}}</p>
+
+    <div class="d-flex justify-content-between align-items-center ">
+      <div>
+        <span class=" text-decoration-line-through fs-4">{{$ctrl.product.price | currency}}</span>
+        <span class="text-primary fs-2 ">{{($ctrl.product.price * $ctrl.product.discountPercentage)/100 |
+          currency}}</span>
+      </div>
+      <div class="fs-5 text-secondary d-flex">
+        <span>Rating: </span>
+        <div class="mx-2 ">
+          <i class="bi bi-star-fill mx-1" ng-repeat="star in $ctrl.stars"
+            ng-class="{'text-warning' : star <= $ctrl.product.rating}"></i>
+        </div>
+        <span>({{$ctrl.product.rating}})</span>
+      </div>
+    </div>
+    <div>
+
+    </div>
+    <ul class="product-thumbs">
+      <li ng-repeat="img in $ctrl.product.images">
+        <img ng-src="{{img}}" ng-click="$ctrl.setImage(img)" />
+      </li>
+    </ul>
+
+  </div>
+</div>
