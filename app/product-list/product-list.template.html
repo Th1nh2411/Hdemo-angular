@@ -47,10 +47,10 @@
             </div>
           </div>
           <div class="flex-shrink-0 p-2">
-            <button type="button" class="btn btn-warning btn-sm me-2" data-bs-toggle="modal"
-              data-bs-target="#formModal">Edit
+            <button type="button" class="btn btn-warning btn-sm me-2" data-bs-toggle="modal" data-bs-target="#formModal"
+              ng-click="$ctrl.handleEdit(product)">Edit
             </button>
-            <button type="button" class="btn btn-danger btn-sm">Delete
+            <button type="button" class="btn btn-danger btn-sm" ng-click="$ctrl.handleDelete(product)">Delete
             </button>
           </div>
         </li>
@@ -83,7 +83,7 @@
           <div class="mb-3">
             <select required ng-model="$ctrl.productData.category" class="form-select">
               <option value="">Choose Category...</option>
-              <option ng-repeat="item in $ctrl.categories" value="{{item}}">{{item}}</option>
+              <option ng-repeat="item in $ctrl.categories" value="{{item.toLowerCase()}}">{{item}}</option>
             </select>
           </div>
           <div class="input-group mb-3">
@@ -99,12 +99,12 @@
 
           <div class="mb-3">
             <label for="formThumbnail" class="form-label">Choose thumbnail</label>
-            <input required select-ng-files ng-model="$ctrl.productData.thumbnail" class="form-control" type="file"
+            <input select-ng-files ng-model="$ctrl.productData.thumbnail" class="form-control" type="file"
               id="formThumbnail" accept="image/*">
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary" id="add-btn">Add new product</button>
+            <button type="submit" class="btn btn-primary" id="submit-btn">Add new product</button>
           </div>
         </form>
       </div>
@@ -117,7 +117,7 @@
   <div id="successToast" class="toast text-white bg-success hide" role="alert" aria-live="assertive" aria-atomic="true">
 
     <div class="toast-body ">
-      Add Successfully
+      Submit Successfully
     </div>
   </div>
 </div>

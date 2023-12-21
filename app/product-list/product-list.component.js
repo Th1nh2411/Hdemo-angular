@@ -57,19 +57,77 @@ angular.module("productList").component("productList", {
       self.onSubmitForm = function () {
         self.loading = true;
         // Change file image to string
-        console.log(self.productData.thumbnail);
-        if (self.productData.thumbnail) {
+        if (Array.isArray(self.productData.thumbnail)) {
           self.productData.thumbnail = URL.createObjectURL(
             self.productData.thumbnail[0]
           );
         }
 
-        Product.addProducts(self.productData, function (newProducts) {
-          successToast.show();
-          formModal.hide();
-          self.products.unshift(newProducts);
-          self.loading = false;
-        });
+        if (self.edit) {
+          Product.editProduct(
+            { idProduct: self.productData.id },
+            { ...self.productData, id: undefined },
+            function (newProducts) {
+              successToast.show();
+              formModal.hide();
+              var indexToReplace = self.products.findIndex(
+                (obj) => obj.id === self.productData.id
+              );
+              if (indexToReplace !== -1) {
+                self.products.splice(indexToReplace, 1, newProducts);
+              }
+              self.loading = false;
+            },
+            function (error) {
+              formModal.hide();
+              alert("error");
+              self.loading = false;
+            }
+          );
+        } else {
+          Product.addProduct(
+            self.productData,
+            function (newProducts) {
+              successToast.show();
+              formModal.hide();
+              self.products.unshift(newProducts);
+              self.loading = false;
+            },
+            function (error) {
+              formModal.hide();
+              alert("error");
+              self.loading = false;
+            }
+          );
+        }
+      };
+      // Handle edit product
+      self.handleEdit = function (data) {
+        self.productData = data;
+        document.getElementById("formModalLabel").innerText = `Edit product`;
+        document.getElementById("submit-btn").innerText = `Edit product`;
+        self.edit = true;
+      }; // Handle edit product
+      self.handleDelete = function (data) {
+        if (window.confirm("Do you really want delete this product?")) {
+          self.loading = true;
+          Product.delProduct(
+            { idProduct: data.id },
+            function () {
+              successToast.show();
+              var indexToDel = self.products.findIndex(
+                (obj) => obj.id === data.id
+              );
+              if (indexToDel !== -1) {
+                self.products.splice(indexToDel, 1);
+              }
+              self.loading = false;
+            },
+            function () {
+              alert("error");
+            }
+          );
+        }
       };
     },
   ],

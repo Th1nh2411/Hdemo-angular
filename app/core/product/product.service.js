@@ -34,10 +34,14 @@ angular.module("core.product").factory("Product", [
             );
           },
         },
-        addProducts: {
-          method: "POST",
+        editProduct: {
+          method: "PATCH",
           isArray: false,
-          params: { param: "add" },
+          headers: { "Content-Type": "application/json" },
+        },
+        delProduct: {
+          method: "DELETE",
+          isArray: false,
           headers: { "Content-Type": "application/json" },
         },
       }
