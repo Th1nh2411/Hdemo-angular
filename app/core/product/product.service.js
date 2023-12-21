@@ -27,6 +27,18 @@ angular.module("core.product").factory("Product", [
           method: "GET",
           isArray: true,
           params: { param: "categories" },
+          transformResponse: function (data, headersGetter, status) {
+            let jsonData = angular.fromJson(data);
+            return jsonData.map(
+              (item) => item.charAt(0).toUpperCase() + item.slice(1)
+            );
+          },
+        },
+        addProducts: {
+          method: "POST",
+          isArray: false,
+          params: { param: "add" },
+          headers: { "Content-Type": "application/json" },
         },
       }
     );

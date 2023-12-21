@@ -7,6 +7,10 @@ angular.module("productList").component("productList", {
     "Product",
     function productListController(Product) {
       var self = this;
+      var successToast = new bootstrap.Toast(
+        document.getElementById("successToast")
+      );
+      var formModal = new bootstrap.Modal(document.getElementById("formModal"));
       self.loading = true;
 
       self.categories = Product.getCategories();
@@ -14,13 +18,6 @@ angular.module("productList").component("productList", {
       self.category = "";
 
       // Get data
-      self.onChangeCategory = function () {
-        if (self.category != "") {
-          self.getProductsByCategory();
-        } else {
-          self.getAllProducts();
-        }
-      };
 
       self.getAllProducts = function () {
         self.loading = true;
@@ -37,7 +34,43 @@ angular.module("productList").component("productList", {
           }
         );
       };
+
       self.getAllProducts();
+      // handle event
+      self.onChangeCategory = function () {
+        if (self.category != "") {
+          self.getProductsByCategory();
+        } else {
+          self.getAllProducts();
+        }
+      };
+      self.productData = {
+        title: "",
+        description: "",
+        category: "",
+        price: "",
+        thumbnail: null,
+        // Thêm các thuộc tính khác nếu cần
+      };
+
+      // Submit form
+      self.onSubmitForm = function () {
+        self.loading = true;
+        // Change file image to string
+        console.log(self.productData.thumbnail);
+        if (self.productData.thumbnail) {
+          self.productData.thumbnail = URL.createObjectURL(
+            self.productData.thumbnail[0]
+          );
+        }
+
+        Product.addProducts(self.productData, function (newProducts) {
+          successToast.show();
+          formModal.hide();
+          self.products.unshift(newProducts);
+          self.loading = false;
+        });
+      };
     },
   ],
 });

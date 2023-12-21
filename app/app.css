@@ -11,10 +11,12 @@ h1 {
 
 .products li {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
   border: 1px solid #999;
   margin-bottom: 1rem;
   border-radius: 0.5rem;
-  padding: 0.5rem;
+  padding: 0.8rem;
 }
 
 .thumb {

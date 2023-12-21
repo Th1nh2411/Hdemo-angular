@@ -23,29 +23,101 @@
           <option ng-repeat="item in $ctrl.categories" value="{{item}}">{{item}}</option>
         </select>
       </p>
-
+      <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#formModal">Add
+        product</button>
     </div>
 
     <div class="col-md-10">
       <!--Body content-->
       <div ng-if="$ctrl.loading" class="ps-5">Loading...</div>
       <ul ng-if="!$ctrl.loading" class="products">
-        <li ng-repeat="product in $ctrl.products | filter:$ctrl.query | orderBy:$ctrl.orderProp"
-          class="thumbnail product-list-item">
-          <a href="#!/products/{{product.id}}" class="thumb">
-            <img ng-src="{{product.thumbnail}}" alt="{{product.title}}" />
-          </a>
-          <div>
-            <a class="fs-5 text-primary text-decoration-none " href="#!/products/{{product.id}}">{{product.title}}</a>
-            <p class="product-description">{{product.description}}</p>
+        <li ng-repeat="product in $ctrl.products | filter:$ctrl.query | orderBy:$ctrl.orderProp">
+          <div class="d-flex ">
+            <a href="#!/products/{{product.id}}" class="thumb">
+              <img ng-src="{{product.thumbnail}}" alt="{{product.title}}" />
+            </a>
             <div>
-              <span class=" text-decoration-line-through ">{{product.price | currency}}</span>
-              <span class="text-primary fs-5 ">{{(product.price * product.discountPercentage)/100 | currency}}</span>
+              <a class="fs-5 text-primary text-decoration-none " href="#!/products/{{product.id}}">{{product.title}}</a>
+              <p class="product-description">{{product.description}}</p>
+              <div>
+                <span ng-class="{'text-decoration-line-through' : product.discountPercentage}">{{product.price |
+                  currency}}</span>
+                <span class="text-primary fs-5 ">{{(product.price * product.discountPercentage)/100 | currency}}</span>
+              </div>
             </div>
+          </div>
+          <div class="flex-shrink-0 p-2">
+            <button type="button" class="btn btn-warning btn-sm me-2" data-bs-toggle="modal"
+              data-bs-target="#formModal">Edit
+            </button>
+            <button type="button" class="btn btn-danger btn-sm">Delete
+            </button>
           </div>
         </li>
       </ul>
 
+    </div>
+  </div>
+</div>
+<!-- Form Modal -->
+<div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="formModalLabel">Add new product</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form ng-submit="$ctrl.onSubmitForm()">
+          <div class="mb-3">
+            <label for="product-title" class="col-form-label">Title:</label>
+            <input required ng-model="$ctrl.productData.title" placeholder="Input title" type="text"
+              class="form-control" id="product-title">
+          </div>
+          <div class="mb-3">
+            <label for="product-description" class="col-form-label">Description:</label>
+            <textarea required ng-model="$ctrl.productData.description" placeholder="Input description"
+              class="form-control" id="product-description"></textarea>
+          </div>
+
+          <div class="mb-3">
+            <select required ng-model="$ctrl.productData.category" class="form-select">
+              <option value="">Choose Category...</option>
+              <option ng-repeat="item in $ctrl.categories" value="{{item}}">{{item}}</option>
+            </select>
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">$</span>
+            </div>
+            <input required ng-model="$ctrl.productData.price" placeholder="Product price" type="number"
+              class="form-control" aria-label="Amount (to the nearest dollar)">
+            <div class="input-group-append">
+              <span class="input-group-text">.00</span>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="formThumbnail" class="form-label">Choose thumbnail</label>
+            <input required select-ng-files ng-model="$ctrl.productData.thumbnail" class="form-control" type="file"
+              id="formThumbnail" accept="image/*">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" id="add-btn">Add new product</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="position-fixed  bottom-0 end-0 p-3" style="z-index: 11">
+  <div id="successToast" class="toast text-white bg-success hide" role="alert" aria-live="assertive" aria-atomic="true">
+
+    <div class="toast-body ">
+      Add Successfully
     </div>
   </div>
 </div>
