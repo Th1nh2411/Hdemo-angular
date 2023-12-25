@@ -5,6 +5,8 @@ angular.module("productcatApp", [
   "ngAnimate",
   "ngRoute",
   "core",
+  "appHeader",
+  "mainFooter",
   "productDetail",
   "productList",
 ]);

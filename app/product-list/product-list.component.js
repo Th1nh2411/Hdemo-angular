@@ -7,9 +7,7 @@ angular.module("productList").component("productList", {
     "Product",
     function productListController(Product) {
       var self = this;
-      var successToast = new bootstrap.Toast(
-        document.getElementById("successToast")
-      );
+      var myToast = new bootstrap.Toast(document.getElementById("myToast"));
       var formModal = new bootstrap.Modal(document.getElementById("formModal"));
       self.loading = true;
 
@@ -55,25 +53,17 @@ angular.module("productList").component("productList", {
 
       // Submit form
       self.onSubmitForm = function () {
-        // Change file image to string
-        if (Array.isArray(self.productData.thumbnail)) {
-          self.productData.thumbnail = URL.createObjectURL(
-            self.productData.thumbnail[0]
-          );
-        }
-        // Validate price
-
         if (self.edit) {
           Product.editProduct(
             { idProduct: self.productData.id },
             {
               ...self.productData,
               id: undefined,
-              image_urls: undefined,
               category: undefined,
             },
             function (newProducts) {
-              successToast.show();
+              self.toastText = "Edit product Successfully";
+              myToast.show();
               formModal.hide();
               self.getAllProducts();
             },
@@ -82,12 +72,16 @@ angular.module("productList").component("productList", {
             }
           );
         } else {
-          console.log(self.productData);
           Product.addProduct(
             self.productData,
+            {
+              ...self.productData,
+              category: undefined,
+            },
             function (newProducts) {
-              successToast.show();
-              // formModal.hide();
+              self.toastText = "Add product Successfully";
+              myToast.show();
+              formModal.hide();
               self.getAllProducts();
             },
             function (error) {
@@ -99,15 +93,14 @@ angular.module("productList").component("productList", {
       // Handle click edit product
       self.handleClickEditBtn = function (data) {
         self.productData = data;
-        console.log(self.productData.category_id);
-        document.getElementById("formModalLabel").innerText = `Edit product`;
-        document.getElementById("submit-btn").innerText = `Edit product`;
+        self.formLabel = `Edit product`;
+        self.formLabel = `Edit product`;
         self.edit = true;
       }; // Handle click add product
       self.handleClickAddBtn = function (data) {
         self.productData = {};
-        document.getElementById("formModalLabel").innerText = `Add product`;
-        document.getElementById("submit-btn").innerText = `Add product`;
+        self.formLabel = `Add product`;
+        self.formLabel = `Add product`;
         self.edit = false;
       }; // Handle edit product
       self.handleDelete = function (data) {
@@ -116,7 +109,8 @@ angular.module("productList").component("productList", {
           Product.delProduct(
             { idProduct: data.id },
             function () {
-              successToast.show();
+              self.toastText = "Delete product Successfully";
+              myToast.show();
               var indexToDel = self.products.findIndex(
                 (obj) => obj.id === data.id
               );

@@ -3,7 +3,9 @@
 h1 {
   margin-top: 0;
 }
-
+.view-frame {
+  padding-top: 80px;
+}
 /* View: product list */
 .products {
   list-style: none;
@@ -51,7 +53,7 @@ h1 {
   height: 400px;
   margin-bottom: 2em;
   margin-right: 3em;
-  width: 400px;
+  width: 100%;
 }
 
 .product:first-child {

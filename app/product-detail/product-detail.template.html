@@ -4,13 +4,15 @@
     <li class="breadcrumb-item active" aria-current="page">Library</li>
   </ol>
 </nav>
-<div class="d-flex border-bottom mb-4 ">
-  <div class="product-images">
-    <img ng-src="{{img}}" class="product" ng-class="{selected: img === $ctrl.mainImageUrl}"
-      ng-repeat="img in $ctrl.product.images" />
+<div class="row border-bottom mb-4 ">
+  <div class="col-5">
+    <div class="product-images">
+      <img ng-src="{{img}}" class="product" ng-class="{selected: img === $ctrl.mainImageUrl}"
+        ng-repeat="img in $ctrl.product.images track by $index" />
+    </div>
   </div>
 
-  <div>
+  <div class="col-7">
     <div class="d-flex border-bottom mb-4 align-items-baseline ">
       <h1 class="me-2">{{$ctrl.product.title}} </h1>
       <h4>({{$ctrl.product.brand}})</h4>
@@ -18,7 +20,7 @@
 
     <p>{{$ctrl.product.description}}</p>
 
-    <div class="d-flex justify-content-between align-items-center ">
+    <div class="d-flex justify-content-between align-items-center  ">
       <div>
         <span class=" text-decoration-line-through fs-4">{{$ctrl.product.price | currency}}</span>
         <span class="text-primary fs-2 ">{{($ctrl.product.price * $ctrl.product.discountPercentage)/100 |
@@ -37,8 +39,8 @@
 
     </div>
     <ul class="product-thumbs">
-      <li ng-repeat="img in $ctrl.product.images">
-        <img ng-src="{{img}}" ng-click="$ctrl.setImage(img)" />
+      <li ng-repeat="img in $ctrl.product.images track by $index"">
+        <img ng-src=" {{img}}" ng-click="$ctrl.setImage(img)" />
       </li>
     </ul>
 
