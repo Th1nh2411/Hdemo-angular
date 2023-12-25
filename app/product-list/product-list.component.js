@@ -28,7 +28,7 @@ angular.module("productList").component("productList", {
       self.getProductsByCategory = function () {
         self.loading = true;
         self.products = Product.getProducts(
-          { category: self.category, param: "category" },
+          { idCategory: self.category, param: "category" },
           function () {
             self.loading = false;
           }
@@ -38,7 +38,7 @@ angular.module("productList").component("productList", {
       self.getAllProducts();
       // handle event
       self.onChangeCategory = function () {
-        if (self.category != "") {
+        if (self.category) {
           self.getProductsByCategory();
         } else {
           self.getAllProducts();
@@ -55,58 +55,60 @@ angular.module("productList").component("productList", {
 
       // Submit form
       self.onSubmitForm = function () {
-        self.loading = true;
         // Change file image to string
         if (Array.isArray(self.productData.thumbnail)) {
           self.productData.thumbnail = URL.createObjectURL(
             self.productData.thumbnail[0]
           );
         }
+        // Validate price
 
         if (self.edit) {
           Product.editProduct(
             { idProduct: self.productData.id },
-            { ...self.productData, id: undefined },
+            {
+              ...self.productData,
+              id: undefined,
+              image_urls: undefined,
+              category: undefined,
+            },
             function (newProducts) {
               successToast.show();
               formModal.hide();
-              var indexToReplace = self.products.findIndex(
-                (obj) => obj.id === self.productData.id
-              );
-              if (indexToReplace !== -1) {
-                self.products.splice(indexToReplace, 1, newProducts);
-              }
-              self.loading = false;
+              self.getAllProducts();
             },
             function (error) {
-              formModal.hide();
               alert("error");
-              self.loading = false;
             }
           );
         } else {
+          console.log(self.productData);
           Product.addProduct(
             self.productData,
             function (newProducts) {
               successToast.show();
-              formModal.hide();
-              self.products.unshift(newProducts);
-              self.loading = false;
+              // formModal.hide();
+              self.getAllProducts();
             },
             function (error) {
-              formModal.hide();
               alert("error");
-              self.loading = false;
             }
           );
         }
       };
-      // Handle edit product
-      self.handleEdit = function (data) {
+      // Handle click edit product
+      self.handleClickEditBtn = function (data) {
         self.productData = data;
+        console.log(self.productData.category_id);
         document.getElementById("formModalLabel").innerText = `Edit product`;
         document.getElementById("submit-btn").innerText = `Edit product`;
         self.edit = true;
+      }; // Handle click add product
+      self.handleClickAddBtn = function (data) {
+        self.productData = {};
+        document.getElementById("formModalLabel").innerText = `Add product`;
+        document.getElementById("submit-btn").innerText = `Add product`;
+        self.edit = false;
       }; // Handle edit product
       self.handleDelete = function (data) {
         if (window.confirm("Do you really want delete this product?")) {

@@ -3,10 +3,10 @@
 angular.module("core.product").factory("Product", [
   "$resource",
   function ($resource) {
-    const apiUrl = "https://dummyjson.com/products";
+    const apiUrl = "http://localhost:9000/products";
 
     return $resource(
-      `${apiUrl}/:param/:idProduct/:category`,
+      `${apiUrl}/:param/:idProduct/:idCategory`,
       {
         // idProduct: "@idProduct",
         // category: "@category",
@@ -15,13 +15,13 @@ angular.module("core.product").factory("Product", [
         getProducts: {
           method: "GET",
           isArray: true,
-          transformResponse: function (data, headersGetter, status) {
-            let jsonData = angular.fromJson(data);
-            let products =
-              jsonData && jsonData.products ? jsonData.products : [];
+          // transformResponse: function (data, headersGetter, status) {
+          //   let jsonData = angular.fromJson(data);
+          //   let products =
+          //     jsonData && jsonData.products ? jsonData.products : [];
 
-            return products;
-          },
+          //   return products;
+          // },
         },
         getCategories: {
           method: "GET",
@@ -29,13 +29,19 @@ angular.module("core.product").factory("Product", [
           params: { param: "categories" },
           transformResponse: function (data, headersGetter, status) {
             let jsonData = angular.fromJson(data);
-            return jsonData.map(
-              (item) => item.charAt(0).toUpperCase() + item.slice(1)
-            );
+            return jsonData.map((item) => ({
+              id: item.id,
+              name: item.name.charAt(0).toUpperCase() + item.name.slice(1),
+            }));
           },
         },
+        addProduct: {
+          method: "POST",
+          isArray: false,
+          headers: { "Content-Type": "application/json" },
+        },
         editProduct: {
-          method: "PATCH",
+          method: "PUT",
           isArray: false,
           headers: { "Content-Type": "application/json" },
         },
