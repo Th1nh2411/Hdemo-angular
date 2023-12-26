@@ -7,20 +7,15 @@ angular.module("core.product").factory("Product", [
 
     return $resource(
       `${apiUrl}/:param/:idProduct/:idCategory`,
-      {
-        // idProduct: "@idProduct",
-        // category: "@category",
-      },
+      {},
       {
         getProducts: {
           method: "GET",
           isArray: true,
           // transformResponse: function (data, headersGetter, status) {
           //   let jsonData = angular.fromJson(data);
-          //   let products =
-          //     jsonData && jsonData.products ? jsonData.products : [];
 
-          //   return products;
+          //   return jsonData;
           // },
         },
         getCategories: {
@@ -52,5 +47,25 @@ angular.module("core.product").factory("Product", [
         },
       }
     );
+  },
+]);
+angular.module("core.product").factory("ProductService", [
+  function () {
+    var sharedData = {
+      queryProduct: [],
+    };
+
+    function updateQueryProduct(newQueryProduct) {
+      sharedData.queryProduct = newQueryProduct;
+    }
+
+    function getQueryProduct() {
+      return sharedData.queryProduct;
+    }
+
+    return {
+      updateQueryProduct: updateQueryProduct,
+      getQueryProduct: getQueryProduct,
+    };
   },
 ]);

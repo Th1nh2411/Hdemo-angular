@@ -5,7 +5,9 @@ angular.module("productList").component("productList", {
   templateUrl: "product-list/product-list.template.html",
   controller: [
     "Product",
-    function productListController(Product) {
+    "ProductService",
+    "$scope",
+    function productListController(Product, ProductService, $scope) {
       var self = this;
       var myToast = new bootstrap.Toast(document.getElementById("myToast"));
       var formModal = new bootstrap.Modal(document.getElementById("formModal"));
@@ -17,31 +19,49 @@ angular.module("productList").component("productList", {
 
       // Get data
 
-      self.getAllProducts = function () {
-        self.loading = true;
-        self.products = Product.getProducts(function () {
-          self.loading = false;
-        });
-      };
       self.getProductsByCategory = function () {
         self.loading = true;
-        self.products = Product.getProducts(
-          { idCategory: self.category, param: "category" },
-          function () {
-            self.loading = false;
-          }
-        );
-      };
 
-      self.getAllProducts();
+        if (self.category) {
+          self.products = Product.getProducts(
+            {
+              idCategory: self.category,
+              param: "category",
+              q: ProductService.getQueryProduct(),
+            },
+            function () {
+              self.loading = false;
+            }
+          );
+        } else {
+          self.products = Product.getProducts(
+            {
+              q: ProductService.getQueryProduct(),
+            },
+            function () {
+              self.loading = false;
+            }
+          );
+        }
+      };
+      $scope.$watch(
+        function () {
+          return ProductService.getQueryProduct();
+        },
+        function (newQuery) {
+          self.getProductsByCategory();
+        }
+      );
+      self.getProductsByCategory();
       // handle event
       self.onChangeCategory = function () {
         if (self.category) {
           self.getProductsByCategory();
         } else {
-          self.getAllProducts();
+          self.getProductsByCategory();
         }
       };
+
       self.productData = {
         title: "",
         description: "",
@@ -65,7 +85,7 @@ angular.module("productList").component("productList", {
               self.toastText = "Edit product Successfully";
               myToast.show();
               formModal.hide();
-              self.getAllProducts();
+              self.getProductsByCategory();
             },
             function (error) {
               alert("error");
@@ -82,7 +102,7 @@ angular.module("productList").component("productList", {
               self.toastText = "Add product Successfully";
               myToast.show();
               formModal.hide();
-              self.getAllProducts();
+              self.getProductsByCategory();
             },
             function (error) {
               alert("error");
@@ -105,19 +125,12 @@ angular.module("productList").component("productList", {
       }; // Handle edit product
       self.handleDelete = function (data) {
         if (window.confirm("Do you really want delete this product?")) {
-          self.loading = true;
           Product.delProduct(
             { idProduct: data.id },
             function () {
               self.toastText = "Delete product Successfully";
               myToast.show();
-              var indexToDel = self.products.findIndex(
-                (obj) => obj.id === data.id
-              );
-              if (indexToDel !== -1) {
-                self.products.splice(indexToDel, 1);
-              }
-              self.loading = false;
+              self.getProductsByCategory();
             },
             function () {
               alert("error");

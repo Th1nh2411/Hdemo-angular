@@ -4,7 +4,6 @@
 }
 
 .view-frame {
-  margin-top: 20px;
 }
 
 .view-frame.ng-enter,
@@ -17,13 +16,8 @@
 }
 
 .view-frame.ng-enter {
-  animation: 0.2s fade-in;
+  animation: 0.3s fade-in;
   z-index: 100;
-}
-
-.view-frame.ng-leave {
-  animation: 0.2s fade-out;
-  z-index: 99;
 }
 
 @keyframes fade-in {
@@ -32,15 +26,6 @@
   }
   to {
     opacity: 1;
-  }
-}
-
-@keyframes fade-out {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
   }
 }
 
