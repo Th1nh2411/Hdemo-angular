@@ -34,16 +34,19 @@
       <div ng-if="$ctrl.loading" class="ps-5">Loading...</div>
       <div ng-if="$ctrl.products.data.length === 0" class="ps-5">No product...</div>
       <ul ng-if="!$ctrl.loading" class="products">
-        <li ng-repeat="product in $ctrl.products.data  ">
+        <li ng-repeat="product in $ctrl.products.data" class="position-relative">
+          <div ng-if="product.discountPercentage != 0" class="product-discount bg-danger">
+            {{product.discountPercentage}}% OFF</div>
           <div class="d-flex ">
             <a href="#!/products/{{product.id}}" class="thumb">
               <img ng-src="{{product.thumbnail}}" alt="{{product.title}}" />
             </a>
             <div>
               <a class="fs-5 text-primary text-decoration-none " href="#!/products/{{product.id}}">{{product.title}}</a>
-              <p class="product-description">{{product.description}}</p>
+              <p>{{product.description}}</p>
               <div>
-                <span ng-class="{'text-decoration-line-through' : product.discountPercentage}">{{product.price |
+                <span ng-if="product.discountPercentage != 0"
+                  ng-class="{'text-decoration-line-through' : product.discountPercentage}">{{product.price |
                   currency}}</span>
                 <span class="text-primary fs-5 ">{{product.price - (product.price * product.discountPercentage)/100 |
                   currency}}</span>
@@ -126,7 +129,7 @@
             <div class="input-group mb-3">
 
               <input name="productDiscount" required ng-model="$ctrl.productData.discountPercentage"
-                placeholder="Product discount" ng-pattern="/^\d+(\.\d{1,2})?$/"
+                placeholder="Product discount" ng-pattern="/^[0-9][0-9]?$|^100$/"
                 ng-class="[ 'form-control', { 'border border-danger': productForm.productDiscount.$error.pattern,} ]"
                 aria-label="Amount (to the nearest dollar)">
               <div class="input-group-prepend">
@@ -135,7 +138,7 @@
 
             </div>
             <div class="text-danger" ng-show="productForm.productDiscount.$error.pattern">
-              Please input correct percentage format.
+              Please input correct number format.
             </div>
           </div>
           <div class="mb-3">

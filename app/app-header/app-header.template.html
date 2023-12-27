@@ -22,9 +22,12 @@
         </li>
       </ul>
 
-      <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+      <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 position-relative">
         <input ng-model='$ctrl.query' ng-change="$ctrl.handleSearch()" ng-model-options="{ debounce: 500 }"
           type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
+        <span ng-if='$ctrl.query'
+          class="position-absolute end-0 top-50 translate-middle-y text-black-50 cursor pe-3 fs-5"
+          style="cursor: pointer;" ng-click="$ctrl.handleClear()">&times;</span>
       </form>
 
       <div class="text-end">

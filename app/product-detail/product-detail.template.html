@@ -36,8 +36,9 @@
     <div class="d-flex justify-content-between align-items-center  ">
       <div>
         <span class=" text-decoration-line-through fs-4">{{$ctrl.product.price | currency}}</span>
-        <span class="text-primary fs-2 ">{{($ctrl.product.price * $ctrl.product.discountPercentage)/100 |
-          currency}}</span>
+        <span class="text-primary fs-2 ">{{$ctrl.product.price -($ctrl.product.price *
+          $ctrl.product.discountPercentage)/100 |
+          currency}} (-{{$ctrl.product.discountPercentage}}%)</span>
       </div>
       <div class="fs-5 text-secondary d-flex">
         <span>Rating: </span>

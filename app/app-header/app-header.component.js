@@ -14,6 +14,10 @@ angular.module("appHeader").component("appHeader", {
       self.handleSearch = function () {
         ProductService.updateQueryProduct(self.query);
       };
+      self.handleClear = function () {
+        self.query = "";
+        ProductService.updateQueryProduct(self.query);
+      };
     },
   ],
 });
