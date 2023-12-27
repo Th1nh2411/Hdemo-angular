@@ -4,18 +4,31 @@
     <li class="breadcrumb-item active" aria-current="page">Library</li>
   </ol>
 </nav>
-<div class="row border-bottom mb-4 ">
-  <div class="col-5">
-    <div class="product-images">
-      <img ng-src="{{img}}" class="product" ng-class="{selected: img === $ctrl.mainImageUrl}"
-        ng-repeat="img in $ctrl.product.images track by $index" />
+<div ng-if="$ctrl.loading" class="ps-5">Loading...</div>
+<div ng-if="!$ctrl.loading" class="row border-bottom mb-4 ">
+  <div class="col-5 ">
+    <div class="product-images ">
+      <img ng-src="{{img.image_url}}" class="product" ng-class="{selected: img === $ctrl.mainImageUrl}"
+        ng-repeat="img in $ctrl.images track by $index" />
+      <div ng-if="$ctrl.images.length > 1" class="d-flex align-items-center gap-2 position-absolute top-0 end-0 ">
+        <button class="btn btn-sm btn-warning" ng-click="$ctrl.handleOpenEditImageModal()">
+          <i class="bi bi-pencil"></i>
+        </button>
+        <button class="btn btn-sm btn-outline-danger " ng-click="$ctrl.handleDeleteImage()">
+          <i class="bi bi-trash"></i>
+        </button>
+      </div>
     </div>
+
   </div>
 
   <div class="col-7">
-    <div class="d-flex border-bottom mb-4 align-items-baseline ">
-      <h1 class="me-2">{{$ctrl.product.title}} </h1>
-      <h4>({{$ctrl.product.brand}})</h4>
+    <div class="d-flex border-bottom mb-4 align-items-center justify-content-between">
+      <div>
+        <h1 class="me-2">{{$ctrl.product.title}} </h1>
+        <h4>({{$ctrl.product.brand}}) ({{$ctrl.product.category}})</h4>
+      </div>
+      <h4>Stock: {{$ctrl.product.stock}}</h4>
     </div>
 
     <p>{{$ctrl.product.description}}</p>
@@ -39,10 +52,49 @@
 
     </div>
     <ul class="product-thumbs">
-      <li ng-repeat="img in $ctrl.product.images track by $index"">
-        <img ng-src=" {{img}}" ng-click="$ctrl.setImage(img)" />
+      <li ng-repeat="img in $ctrl.images track by $index">
+        <img ng-src=" {{img.image_url}}" ng-click="$ctrl.setMainImage(img)" />
+
+      </li>
+      <li>
+        <img src="https://static.thenounproject.com/png/187803-200.png" ng-click="$ctrl.handleOpenAddImageModal()" />
       </li>
     </ul>
 
+  </div>
+</div>
+<!-- Form Modal -->
+<div class="modal fade" id="imageFormModal" tabindex="-1" aria-labelledby="imageFormLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="imageFormLabel">{{$ctrl.imageFormLabel}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form name="productForm" ng-submit="$ctrl.onSubmitForm()">
+          <div class="mb-3">
+            <label for="product-image" class="col-form-label">Image url:</label>
+            <input required ng-model="$ctrl.productImage" placeholder="Image url" type="text" class="form-control"
+              id="product-image">
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" id="submit-btn" ng-disabled="productForm.$invalid"
+              ng-click='$ctrl.handleSubmitFormImage()'>{{$ctrl.imageFormLabel}}</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+<div class="position-fixed  bottom-0 end-0 p-3" style="z-index: 11">
+  <div id="myToast2" class="toast text-white bg-success hide" role="alert" aria-live="assertive" aria-atomic="true">
+
+    <div class="toast-body ">
+      {{$ctrl.toastText}}
+    </div>
   </div>
 </div>

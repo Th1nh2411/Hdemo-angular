@@ -8,18 +8,95 @@ angular.module("productDetail").component("productDetail", {
     "Product",
     function PhoneDetailController($routeParams, Product) {
       var self = this;
+      self.loading = true;
+      var myToast = new bootstrap.Toast(document.getElementById("myToast2"));
+      var imageFormModal = new bootstrap.Modal(
+        document.getElementById("imageFormModal")
+      );
 
       self.stars = Array.from({ length: 5 }, (_, index) => index + 1);
 
       self.product = Product.get(
         { idProduct: $routeParams.idProduct },
-        function (product) {
-          self.setImage(product.images[0]);
-        }
+        function (product) {}
       );
-
-      self.setImage = function setImage(imageUrl) {
+      self.getImages = function () {
+        self.images = Product.getProductImages(
+          { idProduct: $routeParams.idProduct },
+          function (images) {
+            self.setMainImage(images[0]);
+            self.loading = false;
+          }
+        );
+      };
+      self.getImages();
+      self.setMainImage = function (imageUrl) {
         self.mainImageUrl = imageUrl;
+      };
+      self.handleOpenAddImageModal = function () {
+        self.imageFormLabel = "Add Image";
+        self.modalType = "add";
+        imageFormModal.show();
+      };
+      self.handleOpenEditImageModal = function () {
+        self.imageFormLabel = "Edit Image";
+        self.modalType = "edit";
+        self.productImage = self.mainImageUrl.image_url;
+        imageFormModal.show();
+      };
+
+      self.handleSubmitFormImage = function () {
+        if (self.modalType === "edit") {
+          Product.updateProductImage(
+            {
+              idImage: self.mainImageUrl.id,
+            },
+            {
+              image_url: self.productImage,
+            },
+
+            function (images) {
+              myToast.show();
+              self.getImages();
+              self.toastText = "Edit image successfully";
+              imageFormModal.hide();
+            },
+            function () {
+              alert("error");
+            }
+          );
+        } else {
+          Product.addProductImage(
+            {
+              product_id: $routeParams.idProduct,
+              image_url: self.productImage,
+            },
+            function (images) {
+              myToast.show();
+              self.getImages();
+              self.toastText = "Add image successfully";
+              imageFormModal.hide();
+            },
+            function () {
+              alert("error");
+            }
+          );
+        }
+      };
+      self.handleDeleteImage = function () {
+        if (window.confirm("Do you really want to remove this image?")) {
+          Product.deleteProductImage(
+            { idImage: self.mainImageUrl.id },
+            function () {
+              self.toastText = "Delete image Successfully";
+              myToast.show();
+              self.getImages();
+            },
+            function () {
+              alert("error");
+            }
+          );
+        }
       };
     },
   ],

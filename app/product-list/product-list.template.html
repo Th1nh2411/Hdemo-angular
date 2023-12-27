@@ -6,25 +6,25 @@
       <div class="pe-5 border-end">
         <div class="mb-3">
           <label for="sort-option" class="col-form-label">Sort by:</label>
-          <select id="sort-option" class="form-control" ng-model="$ctrl.orderProp">
-            <option value="title">Alphabetical ascending</option>
-            <option value="-title">Alphabetical descending</option>
-            <option value="((price * discountPercentage) / 100)">Price increase</option>
-            <option value="-((price * discountPercentage) / 100)">Price decrease</option>
+          <select id="sort-option" class="form-control" ng-model="$ctrl.sort" ng-change="$ctrl.getProductsByCategory()">
+            <option value="product.title">Alphabetical ascending</option>
+            <option value="-product.title">Alphabetical descending</option>
+            <option value="price_after_discount">Price increase</option>
+            <option value="-price_after_discount">Price decrease</option>
           </select>
         </div>
 
         <div class="mb-3">
           <label for="category-option" class="col-form-label">Filter category:</label>
           <select id="category-option" class="form-control" ng-model="$ctrl.category"
-            ng-change="$ctrl.onChangeCategory()">
+            ng-change="$ctrl.getProductsByCategory()">
             <option value="">Choose Category...</option>
             <option ng-repeat="item in $ctrl.categories" value="{{item.id}}">{{item.name}}</option>
           </select>
         </div>
 
         <button type="button" class="btn btn-primary btn-sm w-100" data-bs-toggle="modal" data-bs-target="#formModal"
-          ng-click="$ctrl.handleClickAddBtn(product)">Add
+          ng-click="$ctrl.handleClickAddBtn()">Add
           product</button>
       </div>
     </div>
@@ -32,8 +32,9 @@
     <div class="col-md-9">
       <!--Body content-->
       <div ng-if="$ctrl.loading" class="ps-5">Loading...</div>
+      <div ng-if="$ctrl.products.data.length === 0" class="ps-5">No product...</div>
       <ul ng-if="!$ctrl.loading" class="products">
-        <li ng-repeat="product in $ctrl.products  | orderBy:$ctrl.orderProp">
+        <li ng-repeat="product in $ctrl.products.data  ">
           <div class="d-flex ">
             <a href="#!/products/{{product.id}}" class="thumb">
               <img ng-src="{{product.thumbnail}}" alt="{{product.title}}" />
@@ -49,7 +50,7 @@
               </div>
             </div>
           </div>
-          <div class="flex-shrink-0 p-2">
+          <div class="flex-shrink-0 px-4">
             <button type="button" class="btn btn-warning btn-sm me-2" data-bs-toggle="modal" data-bs-target="#formModal"
               ng-click="$ctrl.handleClickEditBtn(product)">Edit
             </button>
@@ -58,7 +59,22 @@
           </div>
         </li>
       </ul>
-
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-end">
+          <li ng-class="['page-item', {'disable' : $ctrl.products.current_page == 1}]"
+            ng-click="$ctrl.handlePreviousPage()">
+            <div class="page-link">Previous</div>
+          </li>
+          <li ng-class="['page-item', {'active' : page == $ctrl.products.current_page}]"
+            ng-repeat="page in $ctrl.totalPages" ng-click="$ctrl.handleChangePage(page)">
+            <div class="page-link">{{page}}</div>
+          </li>
+          <li ng-class="['page-item', {'disable' : $ctrl.products.current_page == $ctrl.products.total_pages}]"
+            ng-click="$ctrl.handleNextPage()">
+            <div class="page-link">Next</div>
+          </li>
+        </ul>
+      </nav>
     </div>
   </div>
 </div>

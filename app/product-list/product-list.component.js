@@ -14,32 +14,45 @@ angular.module("productList").component("productList", {
       self.loading = true;
 
       self.categories = Product.getCategories();
-      self.orderProp = "title";
+      self.sort = "product.title";
       self.category = "";
 
       // Get data
-
-      self.getProductsByCategory = function () {
+      self.getProductsByCategory = function (page = 1) {
         self.loading = true;
 
         if (self.category) {
-          self.products = Product.getProducts(
+          Product.getProducts(
             {
               idCategory: self.category,
               param: "category",
               q: ProductService.getQueryProduct(),
+              page: page,
+              // sortBy: self.sort,
             },
-            function () {
+            function (data) {
+              self.products = data;
               self.loading = false;
+              self.totalPages = Array.from(
+                { length: data.total_pages },
+                (_, index) => index + 1
+              );
             }
           );
         } else {
-          self.products = Product.getProducts(
+          Product.getProducts(
             {
               q: ProductService.getQueryProduct(),
+              page: page,
+              // sortBy: self.sort,
             },
-            function () {
+            function (data) {
+              self.products = data;
               self.loading = false;
+              self.totalPages = Array.from(
+                { length: data.total_pages },
+                (_, index) => index + 1
+              );
             }
           );
         }
@@ -52,24 +65,7 @@ angular.module("productList").component("productList", {
           self.getProductsByCategory();
         }
       );
-      self.getProductsByCategory();
-      // handle event
-      self.onChangeCategory = function () {
-        if (self.category) {
-          self.getProductsByCategory();
-        } else {
-          self.getProductsByCategory();
-        }
-      };
-
-      self.productData = {
-        title: "",
-        description: "",
-        category: "",
-        price: "",
-        thumbnail: null,
-        // Thêm các thuộc tính khác nếu cần
-      };
+      // self.getProductsByCategory();
 
       // Submit form
       self.onSubmitForm = function () {
@@ -79,9 +75,8 @@ angular.module("productList").component("productList", {
             {
               ...self.productData,
               id: undefined,
-              category: undefined,
             },
-            function (newProducts) {
+            function () {
               self.toastText = "Edit product Successfully";
               myToast.show();
               formModal.hide();
@@ -94,11 +89,7 @@ angular.module("productList").component("productList", {
         } else {
           Product.addProduct(
             self.productData,
-            {
-              ...self.productData,
-              category: undefined,
-            },
-            function (newProducts) {
+            function () {
               self.toastText = "Add product Successfully";
               myToast.show();
               formModal.hide();
@@ -114,12 +105,12 @@ angular.module("productList").component("productList", {
       self.handleClickEditBtn = function (data) {
         self.productData = data;
         self.formLabel = `Edit product`;
-        self.formLabel = `Edit product`;
         self.edit = true;
       }; // Handle click add product
-      self.handleClickAddBtn = function (data) {
-        self.productData = {};
-        self.formLabel = `Add product`;
+      self.handleClickAddBtn = function () {
+        self.productData = {
+          category_id: self.category,
+        };
         self.formLabel = `Add product`;
         self.edit = false;
       }; // Handle edit product
@@ -137,6 +128,16 @@ angular.module("productList").component("productList", {
             }
           );
         }
+      };
+      // HANDLE PAGINATION
+      self.handleChangePage = function (page) {
+        self.getProductsByCategory(page);
+      };
+      self.handlePreviousPage = function () {
+        self.getProductsByCategory(Number(self.products.current_page) - 1);
+      };
+      self.handleNextPage = function () {
+        self.getProductsByCategory(Number(self.products.current_page) + 1);
       };
     },
   ],

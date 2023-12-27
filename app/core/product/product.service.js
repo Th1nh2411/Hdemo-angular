@@ -6,12 +6,12 @@ angular.module("core.product").factory("Product", [
     const apiUrl = "http://localhost:9000/products";
 
     return $resource(
-      `${apiUrl}/:param/:idProduct/:idCategory`,
+      `${apiUrl}/:param/:idProduct/:idCategory/:idImage`,
       {},
       {
         getProducts: {
           method: "GET",
-          isArray: true,
+          isArray: false,
           // transformResponse: function (data, headersGetter, status) {
           //   let jsonData = angular.fromJson(data);
 
@@ -30,6 +30,7 @@ angular.module("core.product").factory("Product", [
             }));
           },
         },
+
         addProduct: {
           method: "POST",
           isArray: false,
@@ -41,6 +42,30 @@ angular.module("core.product").factory("Product", [
           headers: { "Content-Type": "application/json" },
         },
         delProduct: {
+          method: "DELETE",
+          isArray: false,
+          headers: { "Content-Type": "application/json" },
+        },
+        getProductImages: {
+          params: { param: "image" },
+          method: "GET",
+          isArray: true,
+          headers: { "Content-Type": "application/json" },
+        },
+        addProductImage: {
+          params: { param: "image" },
+          method: "POST",
+          isArray: false,
+          headers: { "Content-Type": "application/json" },
+        },
+        updateProductImage: {
+          params: { param: "image" },
+          method: "PUT",
+          isArray: false,
+          headers: { "Content-Type": "application/json" },
+        },
+        deleteProductImage: {
+          params: { param: "image" },
           method: "DELETE",
           isArray: false,
           headers: { "Content-Type": "application/json" },
