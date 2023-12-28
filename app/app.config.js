@@ -19,6 +19,12 @@ angular.module("productcatApp").config([
       .when("/FAQ", {
         template: "<h1>It's FAQ guys</h1>",
       })
+      .when("/login", {
+        template: "<h1>It's login guys</h1>",
+      })
+      .when("/register", {
+        template: "<h1>It's register guys</h1>",
+      })
       .otherwise("/products");
   },
 ]);

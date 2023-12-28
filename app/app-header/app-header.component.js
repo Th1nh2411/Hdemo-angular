@@ -5,18 +5,10 @@ angular.module("appHeader").component("appHeader", {
   templateUrl: "app-header/app-header.template.html",
   controller: [
     "$location",
-    "ProductService",
-    function AppHeaderController($location, ProductService) {
+    function AppHeaderController($location) {
       var self = this;
       self.isActiveLink = function (viewLocation) {
         return viewLocation === $location.path();
-      };
-      self.handleSearch = function () {
-        ProductService.updateQueryProduct(self.query);
-      };
-      self.handleClear = function () {
-        self.query = "";
-        ProductService.updateQueryProduct(self.query);
       };
     },
   ],

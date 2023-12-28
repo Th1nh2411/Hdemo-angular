@@ -1,38 +1,30 @@
 <header class="p-3 bg-dark text-white position-fixed start-0 end-0 top-0 z-3">
   <div class="container">
-    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-      <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-        <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
-          <use xlink:href="#bootstrap"></use>
-        </svg>
+    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between">
+      <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-lg-0 text-white text-decoration-none">
+        <i class="bi bi-bug-fill fs-3"></i>
       </a>
 
-      <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-        <li><a href="/"
-            ng-class="['nav-link px-4', { 'text-secondary': $ctrl.isActiveLink('/'), 'text-white': !$ctrl.isActiveLink('/') }]">Home</a>
+      <ul class="nav col-12 col-lg-auto mb-2 justify-content-center mb-md-0 text-uppercase">
+        <li><a href="#"
+            ng-class="['nav-link px-4', { 'text-white': $ctrl.isActiveLink('/'), 'text-secondary': !$ctrl.isActiveLink('/') }]">Home</a>
         </li>
         <li><a href="#!/products"
-            ng-class="['nav-link px-4', { 'text-secondary': $ctrl.isActiveLink('/products'), 'text-white': !$ctrl.isActiveLink('/products') }]">Products</a>
+            ng-class="['nav-link px-4', { 'text-white': $ctrl.isActiveLink('/products'), 'text-secondary': !$ctrl.isActiveLink('/products') }]">Products</a>
         </li>
         <li><a href="#!/about"
-            ng-class="['nav-link px-4', { 'text-secondary': $ctrl.isActiveLink('/about'), 'text-white': !$ctrl.isActiveLink('/about') }]">About</a>
+            ng-class="['nav-link px-4', { 'text-white': $ctrl.isActiveLink('/about'), 'text-secondary': !$ctrl.isActiveLink('/about') }]">About</a>
         </li>
         <li><a href="#!/FAQ"
-            ng-class="['nav-link px-4', { 'text-secondary': $ctrl.isActiveLink('/FAQ'), 'text-white': !$ctrl.isActiveLink('/FAQ') }]">FAQ</a>
+            ng-class="['nav-link px-4', { 'text-white': $ctrl.isActiveLink('/FAQ'), 'text-secondary': !$ctrl.isActiveLink('/FAQ') }]">FAQ</a>
         </li>
       </ul>
 
-      <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 position-relative">
-        <input ng-model='$ctrl.query' ng-change="$ctrl.handleSearch()" ng-model-options="{ debounce: 500 }"
-          type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
-        <span ng-if='$ctrl.query'
-          class="position-absolute end-0 top-50 translate-middle-y text-black-50 cursor pe-3 fs-5"
-          style="cursor: pointer;" ng-click="$ctrl.handleClear()">&times;</span>
-      </form>
 
-      <div class="text-end">
-        <button type="button" class="btn btn-outline-light me-2">Login</button>
-        <button type="button" class="btn btn-warning">Sign-up</button>
+
+      <div class="col-md-3 text-end">
+        <a href="#!/login" class="btn btn-outline-light me-2">Login</a>
+        <a href="#!/register" class="btn btn-warning">Sign-up</a>
       </div>
     </div>
   </div>
