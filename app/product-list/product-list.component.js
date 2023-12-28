@@ -5,9 +5,10 @@ angular.module("productList").component("productList", {
   templateUrl: "product-list/product-list.template.html",
   controller: [
     "Product",
-    function productListController(Product) {
+    "AppService",
+    function productListController(Product, AppService) {
       var self = this;
-      var myToast = new bootstrap.Toast(document.getElementById("myToast"));
+      // var myToast = new bootstrap.Toast(document.getElementById("myToast"));
       self.loading = true;
 
       self.categories = Product.getCategories();
@@ -70,8 +71,6 @@ angular.module("productList").component("productList", {
               id: undefined,
             },
             function () {
-              self.toastText = "Edit product Successfully";
-              myToast.show();
               self.openForm = false;
               self.getProductsByCategory();
             },
@@ -83,8 +82,6 @@ angular.module("productList").component("productList", {
           Product.addProduct(
             self.productData,
             function () {
-              self.toastText = "Add product Successfully";
-              myToast.show();
               self.openForm = false;
               self.getProductsByCategory();
             },
@@ -110,8 +107,6 @@ angular.module("productList").component("productList", {
           Product.delProduct(
             { idProduct: data.id },
             function () {
-              self.toastText = "Delete product Successfully";
-              myToast.show();
               self.getProductsByCategory();
             },
             function () {

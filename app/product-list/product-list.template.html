@@ -100,86 +100,11 @@
 <product-form open_form="$ctrl.openForm" edit="$ctrl.edit" data='$ctrl.productData' categories='$ctrl.categories'
   submit="$ctrl.onSubmitForm"></product-form>
 
-<!-- <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="formModalLabel">{{$ctrl.formLabel}}</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form name="productForm" ng-submit="$ctrl.onSubmitForm()">
-          <div class="mb-3">
-            <label for="product-title" class="col-form-label">Title:</label>
-            <input required ng-model="$ctrl.productData.title" placeholder="Input title" type="text"
-              class="form-control" id="product-title">
-          </div>
-          <div class="mb-3">
-            <label for="product-description" class="col-form-label">Description:</label>
-            <textarea required ng-model="$ctrl.productData.description" placeholder="Input description"
-              class="form-control" id="product-description"></textarea>
-          </div>
+<!-- <div class='position-fixed  bottom-0 end-0 p-3' style='z-index: 11'>
+  <div id='myToast' class='toast text-white bg-success hide' role='alert' aria-live='assertive' aria-atomic='true'>
 
-          <div class="mb-3">
-            <select required ng-model="$ctrl.productData.category_id" class="form-select">
-              <option value="">Choose Category...</option>
-              <option ng-repeat="item in $ctrl.categories" value="{{item.id}}">{{item.name}}</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label for="formPrice" class="form-label">Price</label>
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text">$</span>
-              </div>
-              <input name="productPrice" required ng-model="$ctrl.productData.price" placeholder="Product discount"
-                ng-pattern="/^\d+(\.\d{1,2})?$/"
-                ng-class="[ 'form-control', { 'border border-danger': productForm.productPrice.$error.pattern,} ]"
-                aria-label="Amount (to the nearest dollar)">
-
-            </div>
-            <div class="text-danger" ng-show="productForm.productPrice.$error.pattern">
-              Please input correct price format.
-            </div>
-          </div>
-          <div class="mb-3">
-            <label for="formPrice" class="form-label">Discount</label>
-            <div class="input-group mb-3">
-
-              <input name="productDiscount" required ng-model="$ctrl.productData.discountPercentage"
-                placeholder="Product discount" ng-pattern="/^[0-9][0-9]?$|^100$/"
-                ng-class="[ 'form-control', { 'border border-danger': productForm.productDiscount.$error.pattern,} ]"
-                aria-label="Amount (to the nearest dollar)">
-              <div class="input-group-prepend">
-                <span class="input-group-text">%</span>
-              </div>
-
-            </div>
-            <div class="text-danger" ng-show="productForm.productDiscount.$error.pattern">
-              Please input correct number format.
-            </div>
-          </div>
-          <div class="mb-3">
-            <label for="formThumbnail" class="form-label">Choose thumbnail</label>
-            <input ng-model="$ctrl.productData.thumbnail" class="form-control" id="formThumbnail"
-              placeholder="Add thumbnail url">
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary" id="submit-btn"
-              ng-disabled="productForm.$invalid">{{$ctrl.formLabel}}</button>
-          </div>
-        </form>
-      </div>
-
-    </div>
-  </div>
-</div> -->
-<div class="position-fixed  bottom-0 end-0 p-3" style="z-index: 11">
-  <div id="myToast" class="toast text-white bg-success hide" role="alert" aria-live="assertive" aria-atomic="true">
-
-    <div class="toast-body ">
+    <div class='toast-body '>
       {{$ctrl.toastText}}
     </div>
   </div>
-</div>
+</div> -->

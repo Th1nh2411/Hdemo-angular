@@ -6,10 +6,10 @@ angular.module("productDetail").component("productDetail", {
   controller: [
     "$routeParams",
     "Product",
-    function PhoneDetailController($routeParams, Product) {
+    "AppService",
+    function PhoneDetailController($routeParams, Product, AppService) {
       var self = this;
       self.loading = true;
-      var myToast = new bootstrap.Toast(document.getElementById("myToast2"));
       var imageFormModal = new bootstrap.Modal(
         document.getElementById("imageFormModal")
       );
@@ -56,9 +56,7 @@ angular.module("productDetail").component("productDetail", {
             },
 
             function (images) {
-              myToast.show();
               self.getImages();
-              self.toastText = "Edit image successfully";
               imageFormModal.hide();
             },
             function () {
@@ -72,9 +70,7 @@ angular.module("productDetail").component("productDetail", {
               image_url: self.productImage,
             },
             function (images) {
-              myToast.show();
               self.getImages();
-              self.toastText = "Add image successfully";
               imageFormModal.hide();
             },
             function () {
@@ -88,8 +84,6 @@ angular.module("productDetail").component("productDetail", {
           Product.deleteProductImage(
             { idImage: self.mainImageUrl.id },
             function () {
-              self.toastText = "Delete image Successfully";
-              myToast.show();
               self.getImages();
             },
             function () {

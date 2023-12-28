@@ -5,8 +5,8 @@
   </ol>
 </nav>
 <div ng-if="$ctrl.loading" class="ps-5">Loading...</div>
-<div ng-if="!$ctrl.loading" class="row border-bottom mb-4 ">
-  <div class="col-5 ">
+<div ng-if="!$ctrl.loading" class="row border-bottom mb-4 g-5">
+  <div class=" col-lg-5">
     <div class="product-images ">
       <img ng-src="{{img.image_url}}" class="product" ng-class="{selected: img === $ctrl.mainImageUrl}"
         ng-repeat="img in $ctrl.images track by $index" />
@@ -22,7 +22,7 @@
 
   </div>
 
-  <div class="col-7">
+  <div class=" col-lg-7">
     <div class="d-flex border-bottom mb-4 align-items-center justify-content-between">
       <div>
         <h1 class="me-2">{{$ctrl.product.title}} </h1>
@@ -92,14 +92,6 @@
         </form>
       </div>
 
-    </div>
-  </div>
-</div>
-<div class="position-fixed  bottom-0 end-0 p-3" style="z-index: 11">
-  <div id="myToast2" class="toast text-white bg-success hide" role="alert" aria-live="assertive" aria-atomic="true">
-
-    <div class="toast-body ">
-      {{$ctrl.toastText}}
     </div>
   </div>
 </div>

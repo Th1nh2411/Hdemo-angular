@@ -4,11 +4,18 @@
 angular.module("register").component("register", {
   templateUrl: "register/register.template.html",
   controller: [
+    "User",
     "$location",
-    function RegisterController($location) {
+    function RegisterController(User, $location) {
       var self = this;
-      self.isActiveLink = function (viewLocation) {
-        return viewLocation === $location.path();
+
+      self.handleRegister = function () {
+        User.createAccount(
+          { email: self.email, password: self.password, phone: self.phone },
+          function (result) {
+            $location.path("/");
+          }
+        );
       };
     },
   ],

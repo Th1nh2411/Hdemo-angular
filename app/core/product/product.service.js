@@ -2,7 +2,8 @@
 
 angular.module("core.product").factory("Product", [
   "$resource",
-  function ($resource) {
+  "AppService",
+  function ($resource, AppService) {
     const apiUrl = "http://localhost:9000/products";
 
     return $resource(
@@ -35,16 +36,40 @@ angular.module("core.product").factory("Product", [
           method: "POST",
           isArray: false,
           headers: { "Content-Type": "application/json" },
+          transformResponse: function (data, headersGetter, status) {
+            let jsonData = angular.fromJson(data);
+            AppService.updateToast({
+              title: jsonData.message,
+              type: status === 200 ? "success" : "danger",
+            });
+            return jsonData;
+          },
         },
         editProduct: {
           method: "PUT",
           isArray: false,
           headers: { "Content-Type": "application/json" },
+          transformResponse: function (data, headersGetter, status) {
+            let jsonData = angular.fromJson(data);
+            AppService.updateToast({
+              title: jsonData.message,
+              type: status === 200 ? "success" : "danger",
+            });
+            return jsonData;
+          },
         },
         delProduct: {
           method: "DELETE",
           isArray: false,
           headers: { "Content-Type": "application/json" },
+          transformResponse: function (data, headersGetter, status) {
+            let jsonData = angular.fromJson(data);
+            AppService.updateToast({
+              title: jsonData.message,
+              type: status === 200 ? "success" : "danger",
+            });
+            return jsonData;
+          },
         },
         getProductImages: {
           params: { param: "image" },
@@ -57,18 +82,42 @@ angular.module("core.product").factory("Product", [
           method: "POST",
           isArray: false,
           headers: { "Content-Type": "application/json" },
+          transformResponse: function (data, headersGetter, status) {
+            let jsonData = angular.fromJson(data);
+            AppService.updateToast({
+              title: jsonData.message,
+              type: status === 200 ? "success" : "danger",
+            });
+            return jsonData;
+          },
         },
         updateProductImage: {
           params: { param: "image" },
           method: "PUT",
           isArray: false,
           headers: { "Content-Type": "application/json" },
+          transformResponse: function (data, headersGetter, status) {
+            let jsonData = angular.fromJson(data);
+            AppService.updateToast({
+              title: jsonData.message,
+              type: status === 200 ? "success" : "danger",
+            });
+            return jsonData;
+          },
         },
         deleteProductImage: {
           params: { param: "image" },
           method: "DELETE",
           isArray: false,
           headers: { "Content-Type": "application/json" },
+          transformResponse: function (data, headersGetter, status) {
+            let jsonData = angular.fromJson(data);
+            AppService.updateToast({
+              title: jsonData.message,
+              type: status === 200 ? "success" : "danger",
+            });
+            return jsonData;
+          },
         },
       }
     );

@@ -4,7 +4,7 @@ h1 {
   margin-top: 0;
 }
 .view-frame {
-  padding-top: 70px;
+  padding: 150px 0 100px;
 }
 .gradient-custom-2 {
   /* fallback for old browsers */
@@ -13,14 +13,14 @@ h1 {
   /* Chrome 10-25, Safari 5.1-6 */
   background: -webkit-linear-gradient(
     to right,
-    #6a552b,
+    #4a412f,
     #372e14,
     #222,
     #2b2b2b
   );
 
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  background: linear-gradient(to right, #6a552b, #372e14, #222, #2b2b2b);
+  background: linear-gradient(to right, #4a412f, #2f2816, #222, #2b2b2b);
 }
 
 @media (min-width: 768px) {
@@ -112,6 +112,7 @@ h1 {
   display: none;
   height: 400px;
   width: 100%;
+  object-fit: contain;
 }
 
 .product:first-child {
@@ -123,7 +124,6 @@ h1 {
   height: 450px;
   overflow: hidden;
   position: relative;
-  width: 450px;
 }
 
 .product-thumbs {

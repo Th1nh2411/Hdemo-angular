@@ -1,4 +1,4 @@
 "use strict";
 
 // Define the `register` module
-angular.module("register", ["ngRoute"]);
+angular.module("register", ["core.user"]);

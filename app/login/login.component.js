@@ -4,11 +4,20 @@
 angular.module("login").component("login", {
   templateUrl: "login/login.template.html",
   controller: [
+    "User",
     "$location",
-    function LoginController($location) {
+    "$cookies",
+    function LoginController(User, $location, $cookies) {
       var self = this;
-      self.isActiveLink = function (viewLocation) {
-        return viewLocation === $location.path();
+
+      self.handleLogin = function () {
+        User.login(
+          { email: self.email, password: self.password },
+          function (result) {
+            // $cookies.put("userInfo", JSON.stringify(result.user));
+            $location.path("/");
+          }
+        );
       };
     },
   ],
