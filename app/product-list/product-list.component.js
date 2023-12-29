@@ -73,22 +73,13 @@ angular.module("productList").component("productList", {
             function () {
               self.openForm = false;
               self.getProductsByCategory();
-            },
-            function (error) {
-              alert("error");
             }
           );
         } else {
-          Product.addProduct(
-            self.productData,
-            function () {
-              self.openForm = false;
-              self.getProductsByCategory();
-            },
-            function (error) {
-              alert("error");
-            }
-          );
+          Product.addProduct(self.productData, function () {
+            self.openForm = false;
+            self.getProductsByCategory();
+          });
         }
       };
       // Handle click edit product

@@ -5,7 +5,14 @@ angular.module("core.product").factory("Product", [
   "AppService",
   function ($resource, AppService) {
     const apiUrl = "http://localhost:9000/products";
-
+    function handleResponse(data, headersGetter, status) {
+      let jsonData = angular.fromJson(data);
+      AppService.updateToast({
+        title: jsonData.message,
+        type: status === 200 ? "success" : "danger",
+      });
+      return jsonData;
+    }
     return $resource(
       `${apiUrl}/:param/:idProduct/:idCategory/:idImage`,
       {},
@@ -13,11 +20,6 @@ angular.module("core.product").factory("Product", [
         getProducts: {
           method: "GET",
           isArray: false,
-          // transformResponse: function (data, headersGetter, status) {
-          //   let jsonData = angular.fromJson(data);
-
-          //   return jsonData;
-          // },
         },
         getCategories: {
           method: "GET",
@@ -36,40 +38,20 @@ angular.module("core.product").factory("Product", [
           method: "POST",
           isArray: false,
           headers: { "Content-Type": "application/json" },
-          transformResponse: function (data, headersGetter, status) {
-            let jsonData = angular.fromJson(data);
-            AppService.updateToast({
-              title: jsonData.message,
-              type: status === 200 ? "success" : "danger",
-            });
-            return jsonData;
-          },
+          transformResponse: handleResponse,
         },
         editProduct: {
           method: "PUT",
           isArray: false,
+          withCredentials: true,
           headers: { "Content-Type": "application/json" },
-          transformResponse: function (data, headersGetter, status) {
-            let jsonData = angular.fromJson(data);
-            AppService.updateToast({
-              title: jsonData.message,
-              type: status === 200 ? "success" : "danger",
-            });
-            return jsonData;
-          },
+          transformResponse: handleResponse,
         },
         delProduct: {
           method: "DELETE",
           isArray: false,
           headers: { "Content-Type": "application/json" },
-          transformResponse: function (data, headersGetter, status) {
-            let jsonData = angular.fromJson(data);
-            AppService.updateToast({
-              title: jsonData.message,
-              type: status === 200 ? "success" : "danger",
-            });
-            return jsonData;
-          },
+          transformResponse: handleResponse,
         },
         getProductImages: {
           params: { param: "image" },
@@ -82,42 +64,21 @@ angular.module("core.product").factory("Product", [
           method: "POST",
           isArray: false,
           headers: { "Content-Type": "application/json" },
-          transformResponse: function (data, headersGetter, status) {
-            let jsonData = angular.fromJson(data);
-            AppService.updateToast({
-              title: jsonData.message,
-              type: status === 200 ? "success" : "danger",
-            });
-            return jsonData;
-          },
+          transformResponse: handleResponse,
         },
         updateProductImage: {
           params: { param: "image" },
           method: "PUT",
           isArray: false,
           headers: { "Content-Type": "application/json" },
-          transformResponse: function (data, headersGetter, status) {
-            let jsonData = angular.fromJson(data);
-            AppService.updateToast({
-              title: jsonData.message,
-              type: status === 200 ? "success" : "danger",
-            });
-            return jsonData;
-          },
+          transformResponse: handleResponse,
         },
         deleteProductImage: {
           params: { param: "image" },
           method: "DELETE",
           isArray: false,
           headers: { "Content-Type": "application/json" },
-          transformResponse: function (data, headersGetter, status) {
-            let jsonData = angular.fromJson(data);
-            AppService.updateToast({
-              title: jsonData.message,
-              type: status === 200 ? "success" : "danger",
-            });
-            return jsonData;
-          },
+          transformResponse: handleResponse,
         },
       }
     );

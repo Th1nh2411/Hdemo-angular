@@ -6,10 +6,13 @@ angular.module("core.user").factory("User", [
   "$cookies",
   function ($resource, AppService, $cookies) {
     const apiUrl = "http://localhost:9000";
-    function setCookie(setCookieHeader) {
-      var cookieParts = setCookieHeader.split(";");
-      var cookieValue = cookieParts[0];
-      $cookies.put("userInfo", cookieValue);
+    function handleResponse(data, headersGetter, status) {
+      let jsonData = angular.fromJson(data);
+      AppService.updateToast({
+        title: jsonData.message,
+        type: status === 200 ? "success" : "danger",
+      });
+      return jsonData;
     }
     return $resource(
       `${apiUrl}/:param`,
@@ -21,28 +24,14 @@ angular.module("core.user").factory("User", [
           isArray: false,
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
-          transformResponse: function (data, headersGetter, status) {
-            let jsonData = angular.fromJson(data);
-            AppService.updateToast({
-              title: jsonData.message,
-              type: status === 200 ? "success" : "danger",
-            });
-            return jsonData;
-          },
+          transformResponse: handleResponse,
         },
         createAccount: {
           method: "POST",
           params: { param: "register" },
           isArray: false,
           headers: { "Content-Type": "application/json" },
-          transformResponse: function (data, headersGetter, status) {
-            let jsonData = angular.fromJson(data);
-            AppService.updateToast({
-              title: jsonData.message,
-              type: status === 200 ? "success" : "danger",
-            });
-            return jsonData;
-          },
+          transformResponse: handleResponse,
         },
       }
     );
