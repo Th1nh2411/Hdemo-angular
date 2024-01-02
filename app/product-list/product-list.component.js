@@ -18,11 +18,20 @@ angular.module("productList").component("productList", {
       self.sort = "title";
       self.category = "";
 
-      self.handleClear = function () {
+      self.handleClearSearch = function () {
         self.query = "";
       };
+      // HANDLE FILTER
+      self.handleClickFilterSaleOff = function () {
+        self.filterDiscount = !self.filterDiscount;
+        self.getProducts();
+      };
+      self.handleClickFilterNewProduct = function () {
+        self.filterNew = !self.filterNew;
+        self.getProducts();
+      };
       // Get data
-      self.getProductsByCategory = function (page = 1) {
+      self.getProducts = function (page = 1) {
         self.loading = true;
 
         if (self.category) {
@@ -33,6 +42,8 @@ angular.module("productList").component("productList", {
               q: self.query,
               page: page,
               sort: self.sort,
+              discount: self.filterDiscount || undefined,
+              new: self.filterNew || undefined,
             },
             function (data) {
               self.products = data;
@@ -49,6 +60,8 @@ angular.module("productList").component("productList", {
               q: self.query,
               page: page,
               sort: self.sort,
+              discount: self.filterDiscount || undefined,
+              new: self.filterNew || undefined,
             },
             function (data) {
               self.products = data;
@@ -62,7 +75,7 @@ angular.module("productList").component("productList", {
         }
       };
 
-      self.getProductsByCategory();
+      self.getProducts();
 
       // Submit form
       self.onSubmitForm = function () {
@@ -75,13 +88,13 @@ angular.module("productList").component("productList", {
             },
             function () {
               self.openForm = false;
-              self.getProductsByCategory();
+              self.getProducts();
             }
           );
         } else {
           Product.addProduct(self.productData, function () {
             self.openForm = false;
-            self.getProductsByCategory();
+            self.getProducts();
           });
         }
       };
@@ -99,19 +112,19 @@ angular.module("productList").component("productList", {
       self.handleDelete = function (data) {
         if (window.confirm("Do you really want delete this product?")) {
           Product.delProduct({ idProduct: data.id }, function () {
-            self.getProductsByCategory();
+            self.getProducts();
           });
         }
       };
       // HANDLE PAGINATION
       self.handleChangePage = function (page) {
-        self.getProductsByCategory(page);
+        self.getProducts(page);
       };
       self.handlePreviousPage = function () {
-        self.getProductsByCategory(Number(self.products.current_page) - 1);
+        self.getProducts(Number(self.products.current_page) - 1);
       };
       self.handleNextPage = function () {
-        self.getProductsByCategory(Number(self.products.current_page) + 1);
+        self.getProducts(Number(self.products.current_page) + 1);
       };
     },
   ],

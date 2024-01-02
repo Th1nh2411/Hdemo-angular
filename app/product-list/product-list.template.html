@@ -7,16 +7,16 @@
         <div class="mb-3">
           <label for="sort-option" class="col-form-label">Search:</label>
           <div class="position-relative">
-            <input ng-model='$ctrl.query' ng-change="$ctrl.getProductsByCategory()" ng-model-options="{ debounce: 500 }"
+            <input ng-model='$ctrl.query' ng-change="$ctrl.getProducts()" ng-model-options="{ debounce: 500 }"
               type="search" class="form-control form-control-dark" placeholder="Search product..." aria-label="Search">
             <span ng-if='$ctrl.query'
               class="position-absolute end-0 top-50 translate-middle-y text-black-50 cursor pe-3 fs-5"
-              style="cursor: pointer;" ng-click="$ctrl.handleClear()">&times;</span>
+              style="cursor: pointer;" ng-click="$ctrl.handleClearSearch()">&times;</span>
           </div>
         </div>
         <div class="mb-3">
           <label for="sort-option" class="col-form-label">Sort by:</label>
-          <select id="sort-option" class="form-control" ng-model="$ctrl.sort" ng-change="$ctrl.getProductsByCategory()">
+          <select id="sort-option" class="form-control" ng-model="$ctrl.sort" ng-change="$ctrl.getProducts()">
             <option value="title">Alphabetical ascending</option>
             <option value="-title">Alphabetical descending</option>
             <option value="calculatedPrice">Price increase</option>
@@ -26,13 +26,21 @@
 
         <div class="mb-3">
           <label for="category-option" class="col-form-label">Filter category:</label>
-          <select id="category-option" class="form-control" ng-model="$ctrl.category"
-            ng-change="$ctrl.getProductsByCategory()">
+          <select id="category-option" class="form-control" ng-model="$ctrl.category" ng-change="$ctrl.getProducts()">
             <option value="">Choose Category...</option>
             <option ng-repeat="item in $ctrl.categories" value="{{item.id}}">{{item.name}}</option>
           </select>
         </div>
-
+        <div class="mb-3 d-flex gap-2">
+          <button type="button"
+            ng-class="['btn', 'btn-outline-success', 'btn-sm', 'w-100', {'active' : $ctrl.filterNew}]"
+            ng-click="$ctrl.handleClickFilterNewProduct()">New
+            Product</button>
+          <button type="button"
+            ng-class="['btn', 'btn-outline-danger',  'btn-sm', 'w-100', {'active' : $ctrl.filterDiscount}]"
+            ng-click="$ctrl.handleClickFilterSaleOff()">Sale
+            Off</button>
+        </div>
         <button ng-if="$ctrl.isAdmin" type="button" class="btn btn-primary btn-sm w-100" data-bs-toggle="modal"
           data-bs-target="#formModal" ng-click="$ctrl.handleClickAddBtn()">Add
           product</button>
@@ -47,6 +55,9 @@
         <li ng-repeat="product in $ctrl.products.data" class="position-relative">
           <div ng-if="product.discountPercentage != 0" class="product-discount bg-danger">
             {{product.discountPercentage}}% OFF</div>
+          <div ng-if="product.isNew == 1" ng-style="{'top': product.discountPercentage == 0 ? '10px' : '36px'}"
+            class="product-new bg-success">
+            New</div>
           <div class="d-flex ">
             <a href="#!/products/{{product.id}}" class="thumb">
               <img ng-src="{{product.thumbnail}}" alt="{{product.title}}" />
