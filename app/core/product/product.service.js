@@ -7,10 +7,12 @@ angular.module("core.product").factory("Product", [
     const apiUrl = "http://localhost:9000/products";
     function handleResponse(data, headersGetter, status) {
       let jsonData = angular.fromJson(data);
-      AppService.updateToast({
-        title: jsonData.message,
-        type: status === 200 ? "success" : "danger",
-      });
+      if (jsonData.message) {
+        AppService.updateToast({
+          title: jsonData.message,
+          type: status === 200 ? "success" : "danger",
+        });
+      }
       return jsonData;
     }
     return $resource(
@@ -37,6 +39,7 @@ angular.module("core.product").factory("Product", [
         addProduct: {
           method: "POST",
           isArray: false,
+          withCredentials: true,
           headers: { "Content-Type": "application/json" },
           transformResponse: handleResponse,
         },
@@ -50,6 +53,7 @@ angular.module("core.product").factory("Product", [
         delProduct: {
           method: "DELETE",
           isArray: false,
+          withCredentials: true,
           headers: { "Content-Type": "application/json" },
           transformResponse: handleResponse,
         },
@@ -63,6 +67,7 @@ angular.module("core.product").factory("Product", [
           params: { param: "image" },
           method: "POST",
           isArray: false,
+          withCredentials: true,
           headers: { "Content-Type": "application/json" },
           transformResponse: handleResponse,
         },
@@ -70,6 +75,7 @@ angular.module("core.product").factory("Product", [
           params: { param: "image" },
           method: "PUT",
           isArray: false,
+          withCredentials: true,
           headers: { "Content-Type": "application/json" },
           transformResponse: handleResponse,
         },
@@ -77,6 +83,7 @@ angular.module("core.product").factory("Product", [
           params: { param: "image" },
           method: "DELETE",
           isArray: false,
+          withCredentials: true,
           headers: { "Content-Type": "application/json" },
           transformResponse: handleResponse,
         },

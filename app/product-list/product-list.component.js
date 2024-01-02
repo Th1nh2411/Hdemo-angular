@@ -5,9 +5,12 @@ angular.module("productList").component("productList", {
   templateUrl: "product-list/product-list.template.html",
   controller: [
     "Product",
-    "AppService",
-    function productListController(Product, AppService) {
+    "$cookies",
+    function productListController(Product, $cookies) {
       var self = this;
+      self.isAdmin = $cookies.get("userInfo")
+        ? JSON.parse($cookies.get("userInfo")).role === "admin"
+        : false;
       // var myToast = new bootstrap.Toast(document.getElementById("myToast"));
       self.loading = true;
 
@@ -95,15 +98,9 @@ angular.module("productList").component("productList", {
       }; // Handle edit product
       self.handleDelete = function (data) {
         if (window.confirm("Do you really want delete this product?")) {
-          Product.delProduct(
-            { idProduct: data.id },
-            function () {
-              self.getProductsByCategory();
-            },
-            function () {
-              alert("error");
-            }
-          );
+          Product.delProduct({ idProduct: data.id }, function () {
+            self.getProductsByCategory();
+          });
         }
       };
       // HANDLE PAGINATION

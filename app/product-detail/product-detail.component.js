@@ -6,9 +6,12 @@ angular.module("productDetail").component("productDetail", {
   controller: [
     "$routeParams",
     "Product",
-    "AppService",
-    function PhoneDetailController($routeParams, Product, AppService) {
+    "$cookies",
+    function PhoneDetailController($routeParams, Product, $cookies) {
       var self = this;
+      self.isAdmin = $cookies.get("userInfo")
+        ? JSON.parse($cookies.get("userInfo")).role === "admin"
+        : false;
       self.loading = true;
       var imageFormModal = new bootstrap.Modal(
         document.getElementById("imageFormModal")
@@ -58,9 +61,6 @@ angular.module("productDetail").component("productDetail", {
             function (images) {
               self.getImages();
               imageFormModal.hide();
-            },
-            function () {
-              alert("error");
             }
           );
         } else {
@@ -72,9 +72,6 @@ angular.module("productDetail").component("productDetail", {
             function (images) {
               self.getImages();
               imageFormModal.hide();
-            },
-            function () {
-              alert("error");
             }
           );
         }
@@ -85,9 +82,6 @@ angular.module("productDetail").component("productDetail", {
             { idImage: self.mainImageUrl.id },
             function () {
               self.getImages();
-            },
-            function () {
-              alert("error");
             }
           );
         }

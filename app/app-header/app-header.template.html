@@ -7,16 +7,19 @@
 
       <ul class="nav col-12 col-lg-auto mb-2 justify-content-center mb-md-0 text-uppercase">
         <li><a href="#"
-            ng-class="['nav-link px-4', { 'text-white': $ctrl.isActiveLink('/'), 'text-secondary': !$ctrl.isActiveLink('/') }]">Home</a>
+            ng-class="['nav-link px-3', { 'text-white': $ctrl.isActiveLink('/'), 'text-secondary': !$ctrl.isActiveLink('/') }]">Home</a>
         </li>
         <li><a href="#!/products"
-            ng-class="['nav-link px-4', { 'text-white': $ctrl.isActiveLink('/products'), 'text-secondary': !$ctrl.isActiveLink('/products') }]">Products</a>
+            ng-class="['nav-link px-3', { 'text-white': $ctrl.isActiveLink('/products'), 'text-secondary': !$ctrl.isActiveLink('/products') }]">Products</a>
         </li>
         <li><a href="#!/about"
-            ng-class="['nav-link px-4', { 'text-white': $ctrl.isActiveLink('/about'), 'text-secondary': !$ctrl.isActiveLink('/about') }]">About</a>
+            ng-class="['nav-link px-3', { 'text-white': $ctrl.isActiveLink('/about'), 'text-secondary': !$ctrl.isActiveLink('/about') }]">About</a>
         </li>
         <li><a href="#!/FAQ"
-            ng-class="['nav-link px-4', { 'text-white': $ctrl.isActiveLink('/FAQ'), 'text-secondary': !$ctrl.isActiveLink('/FAQ') }]">FAQ</a>
+            ng-class="['nav-link px-3', { 'text-white': $ctrl.isActiveLink('/FAQ'), 'text-secondary': !$ctrl.isActiveLink('/FAQ') }]">FAQ</a>
+        </li>
+        <li ng-if="$ctrl.userInfo.role === 'admin'"><a href="#!/admin"
+            ng-class="['nav-link px-3', { 'text-white': $ctrl.isActiveLink('/admin'), 'text-secondary': !$ctrl.isActiveLink('/admin') }]">Admin</a>
         </li>
       </ul>
 
@@ -28,7 +31,7 @@
           <a href="#!/register" class="btn btn-warning">Sign-up</a>
         </div>
         <div class="d-flex align-items-center justify-content-end dropdown" ng-if="$ctrl.userInfo">
-          <h5 class="mb-0 me-3">{{$ctrl.userInfo.email}}</h5>
+          <h5 class="mb-0 me-3">{{$ctrl.userInfo.name}}</h5>
           <img src="https://hpsnf.com/wp-content/uploads/2021/04/avatar.jpg" alt=""
             class="rounded-circle dropdown-toggle" style="width: 30px;height: 30px;cursor: pointer"
             data-bs-toggle="dropdown" aria-expanded="false">

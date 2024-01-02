@@ -11,6 +11,7 @@ angular.module("productcatApp", [
   "mainFooter",
   "productDetail",
   "productList",
+  "userList",
 ]);
 
 angular.module("productcatApp").directive("selectNgFiles", function () {

@@ -15,6 +15,17 @@
                             <form name="registerForm" ng-submit="$ctrl.handleRegister()">
                                 <div class="mb-3">
                                     <div class="mb-1">
+                                        <label class="form-label" for="name">Full name</label>
+                                        <input name="name" required ng-model="$ctrl.name" type="name" id="name"
+                                            ng-class="[ 'form-control', 'shadow-none', { 'border border-danger': registerForm.name.$error.pattern,} ]"
+                                            placeholder="Your full name" ng-pattern="/^.{1,30}$/" />
+                                    </div>
+                                    <small class="text-danger" ng-show="registerForm.name.$error.pattern">
+                                        Your name should contain between 1 and 30 characters.
+                                    </small>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="mb-1">
                                         <label class="form-label" for="email">Email</label>
                                         <input name="email" required ng-model="$ctrl.email" type="email" id="email"
                                             ng-class="[ 'form-control', 'shadow-none', { 'border border-danger': registerForm.email.$error.pattern,} ]"

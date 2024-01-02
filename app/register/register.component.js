@@ -11,9 +11,14 @@ angular.module("register").component("register", {
 
       self.handleRegister = function () {
         User.createAccount(
-          { email: self.email, password: self.password, phone: self.phone },
+          {
+            name: self.name,
+            email: self.email,
+            password: self.password,
+            phone: self.phone,
+          },
           function (result) {
-            $location.path("/");
+            $location.path("/login");
           }
         );
       };

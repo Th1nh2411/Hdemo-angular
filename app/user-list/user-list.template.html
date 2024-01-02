@@ -1,0 +1,102 @@
+<div class="container-fluid">
+  <h2 class='text-center mb-4 fw-bold'>User List</h2>
+  <!--Sidebar content-->
+
+  <div class="mb-3 d-flex">
+    <label for="sort-option" class="col-form-label me-3">Search:</label>
+    <div class="position-relative">
+      <input ng-model='$ctrl.query' ng-change="$ctrl.getUsers()" ng-model-options="{ debounce: 500 }" type="search"
+        class="form-control form-control-dark" aria-label="Search">
+      <span ng-if='$ctrl.query' class="position-absolute end-0 top-50 translate-middle-y text-black-50 cursor pe-3 fs-5"
+        style="cursor: pointer;" ng-click="$ctrl.handleClear()">&times;</span>
+    </div>
+  </div>
+
+
+
+  <!--Body content-->
+  <div ng-if="$ctrl.loading" class="ps-5">Loading...</div>
+  <div ng-if="$ctrl.users.data.length === 0" class="ps-5">No user...</div>
+  <table ng-if="!$ctrl.loading" class="table  table-bordered">
+    <thead class='table-secondary'>
+      <tr>
+        <th ng-click="$ctrl.handleSortUser('user_id')" scope="col">
+          <div class="d-flex justify-content-between align-items-center">
+            ID
+            <div ng-switch="$ctrl.sort">
+              <i ng-switch-when="user_id" class="bi bi-sort-down-alt"></i>
+              <i ng-switch-when="-user_id" class="bi bi-sort-down"></i>
+              <i ng-switch-default class="bi bi-arrow-down-up opacity-25"></i>
+            </div>
+          </div>
+        </th>
+        <th ng-click="$ctrl.handleSortUser('name')" scope="col">
+          <div class="d-flex justify-content-between align-items-center">
+            Name
+            <div ng-switch="$ctrl.sort">
+              <i ng-switch-when="name" class="bi bi-sort-down-alt"></i>
+              <i ng-switch-when="-name" class="bi bi-sort-down"></i>
+              <i ng-switch-default class="bi bi-arrow-down-up opacity-25"></i>
+            </div>
+          </div>
+        </th>
+        <th ng-click="$ctrl.handleSortUser('email')" scope="col">
+          <div class="d-flex justify-content-between align-items-center">
+            Email
+            <div ng-switch="$ctrl.sort">
+              <i ng-switch-when="email" class="bi bi-sort-down-alt"></i>
+              <i ng-switch-when="-email" class="bi bi-sort-down"></i>
+              <i ng-switch-default class="bi bi-arrow-down-up opacity-25"></i>
+            </div>
+          </div>
+        </th>
+        <th ng-click="$ctrl.handleSortUser('phone')" scope="col">
+          <div class="d-flex justify-content-between align-items-center">
+            Phone
+            <div ng-switch="$ctrl.sort">
+              <i ng-switch-when="phone" class="bi bi-sort-down-alt"></i>
+              <i ng-switch-when="-phone" class="bi bi-sort-down"></i>
+              <i ng-switch-default class="bi bi-arrow-down-up opacity-25"></i>
+            </div>
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="user in $ctrl.users.data" ng-class="{'table-success' : user.role === 'admin'}">
+        <th scope="row">{{user.user_id}}</th>
+        <td>{{user.name}}</td>
+        <td>{{user.email}}</td>
+        <td>{{user.phone}}</td>
+      </tr>
+
+    </tbody>
+  </table>
+  <nav ng-if="$ctrl.users.data.length != 0" aria-label="Page navigation example">
+    <ul class="pagination justify-content-end">
+      <li ng-class="['page-item', {'disable' : $ctrl.users.current_page == 1}]" ng-click="$ctrl.handlePreviousPage()">
+        <div class="page-link">Previous</div>
+      </li>
+      <li ng-class="['page-item', {'active' : page == $ctrl.users.current_page}]" ng-repeat="page in $ctrl.totalPages"
+        ng-click="$ctrl.handleChangePage(page)">
+        <div class="page-link">{{page}}</div>
+      </li>
+      <li ng-class="['page-item', {'disable' : $ctrl.users.current_page == $ctrl.users.total_pages}]"
+        ng-click="$ctrl.handleNextPage()">
+        <div class="page-link">Next</div>
+      </li>
+    </ul>
+  </nav>
+</div>
+<!-- Form Modal -->
+<product-form open_form="$ctrl.openForm" edit="$ctrl.edit" data='$ctrl.productData' categories='$ctrl.categories'
+  submit="$ctrl.onSubmitForm"></product-form>
+
+<!-- <div class='position-fixed  bottom-0 end-0 p-3' style='z-index: 11'>
+  <div id='myToast' class='toast text-white bg-success hide' role='alert' aria-live='assertive' aria-atomic='true'>
+
+    <div class='toast-body '>
+      {{$ctrl.toastText}}
+    </div>
+  </div>
+</div> -->

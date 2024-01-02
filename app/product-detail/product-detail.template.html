@@ -10,11 +10,12 @@
     <div class="product-images ">
       <img ng-src="{{img.image_url}}" class="product" ng-class="{selected: img === $ctrl.mainImageUrl}"
         ng-repeat="img in $ctrl.images track by $index" />
-      <div ng-if="$ctrl.images.length > 1" class="d-flex align-items-center gap-2 position-absolute top-0 end-0 ">
+      <div ng-if="$ctrl.isAdmin" class="d-flex align-items-center gap-2 position-absolute top-0 end-0 ">
         <button class="btn btn-sm btn-warning" ng-click="$ctrl.handleOpenEditImageModal()">
           <i class="bi bi-pencil"></i>
         </button>
-        <button class="btn btn-sm btn-outline-danger " ng-click="$ctrl.handleDeleteImage()">
+        <button ng-if="$ctrl.images.length > 1" class="btn btn-sm btn-outline-danger "
+          ng-click="$ctrl.handleDeleteImage()">
           <i class="bi bi-trash"></i>
         </button>
       </div>
@@ -61,7 +62,7 @@
         <img ng-src=" {{img.image_url}}" ng-click="$ctrl.setMainImage(img)" />
 
       </li>
-      <li>
+      <li ng-if="$ctrl.isAdmin">
         <img src="https://static.thenounproject.com/png/187803-200.png" ng-click="$ctrl.handleOpenAddImageModal()" />
       </li>
     </ul>
